@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import ReactECharts from 'echarts-for-react';
 
-const TotalSalesChart = () => {
+const TotalSalesChart = ({leftOpen,rightOpen}) => {
+  const chartRef = useRef(null)
+
   const data = [
     { value: 300.56, name: 'Direct', color: '#C6C7F8' },
     { value: 135.18, name: 'Affiliate', color: '#BAEDBD' },
@@ -36,6 +38,19 @@ const TotalSalesChart = () => {
       },
     ],
   };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      chartRef.current?.getEchartsInstance().resize()
+    }, 100);
+
+    useEffect(() => {
+      chartRef.current?.getEchartsInstance().resize()
+    }, [leftOpen, rightOpen])
+
+    return () => clearTimeout(timer)
+  }, [])
+
 
   return (
     <div className="w-full rounded-3xl  text-(--text) p-5">

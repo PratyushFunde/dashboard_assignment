@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { LAYOUT } from '../../constants/layout.constants'
 import {
   Sun,
@@ -17,6 +17,22 @@ import { useTheme } from '../../context/ThemeContext'
 const Navbar = ({ toggleLeft, toggleRight }) => {
   const { theme, toggleTheme } = useTheme()
   const [breadcrumbOpen, setBreadcrumbOpen] = useState(false)
+  const searchRef=useRef(null)
+
+  useEffect(() => {
+   const handleKeyDown = (e) => {
+    // Cmd + / (Mac) OR Ctrl + / (Windows/Linux)
+    if ((e.metaKey || e.ctrlKey) && e.key === '/') {
+      e.preventDefault()
+      searchRef.current?.focus()
+    }
+  }
+    
+    window.addEventListener('keydown',handleKeyDown);
+    return ()=>window.removeEventListener('keydown',handleKeyDown)
+    
+  }, [])
+  
 
   return (
     <nav
@@ -91,6 +107,7 @@ const Navbar = ({ toggleLeft, toggleRight }) => {
         {/* Search – hidden on tablet & mobile */}
         <div className="relative hidden lg:block">
           <input
+          ref={searchRef}
             type="text"
             placeholder="Search"
             className="
