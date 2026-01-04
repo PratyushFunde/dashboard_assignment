@@ -17,13 +17,11 @@ const LeftSidebar = ({ open }) => {
 
     <aside
       className={`
-        bg-(--bg) text-(--text)
-        fixed inset-y-0 left-0 py-5 z-50
-        ${open ? "translate-x-0" : "-translate-x-full"}
-        border-r border-[#1C1C1C1A]
-        transform transition-transform duration-300 ease-in-out
-        overflow-auto no-scrollbar
-        
+           bg-(--bg) text-(--text)
+    h-full overflow-y-auto
+    no-scrollbar
+    py-5 px-2
+    border-r border-(--border)
       `}
       style={{ width: LAYOUT.LEFT_SIDEBAR_WIDTH }}
     >

@@ -34,6 +34,8 @@
   --fin-orders-text: #1C1C1C;
   --fin-revenue-text: #1C1C1C;
   --fin-growth-text: #1C1C1C;
+  --line-style:#A8C5DA;
+
 }
 
 .dark {
@@ -61,6 +63,8 @@
   --fin-orders-text: #FFFFFF;
   --fin-revenue-text: #FFFFFF;
   --fin-growth-text: #000000;
+
+  /* --line-style:#A8C5DA; */
 
   --line-style:#A8C5DA;
 

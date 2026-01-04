@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import LeftSidebar from '../components/navigation/LeftSidebar/LeftSidebar'
 // import RightSidebar from '../components/navigation/RightSidebar/RightSidebar'
 import Navbar from '../components/navigation/Navbar'
@@ -15,7 +15,23 @@ const DashboardLayout = () => {
   const [rightOpen, setRightOpen] = useState(true);
 
   const toggleLeftSidebar = () => setLeftOpen(prev => !prev)
-  const toggleRightSidebar = () => setRightOpen(prev => !prev)
+  const toggleRightSidebar = () => { setRightOpen(prev => !prev), console.log("first") }
+  useEffect(() => {
+    if (leftOpen || rightOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+  }, [leftOpen, rightOpen])
+
+    // Close sidebar when clicking outside on mobile
+  const handleOutsideClick = (e) => {
+    // Only close if screen width < 768 (mobile)
+    if (window.innerWidth < 768 && leftOpen ) {
+      setLeftOpen(false);
+      // setRightOpen(false);
+    }
+  }
 
   return (
     <LayoutContext.Provider value={{
@@ -27,31 +43,47 @@ const DashboardLayout = () => {
       closeRight: () => setRightOpen(false),
     }}>
 
-      <div className='min-h-screen border border-red-700 w-full font-inter bg-(--bg) text-(--text)'>
-        <LeftSidebar open={leftOpen} />
-        <RightSidebar open={rightOpen} />
-        {/* // Main content  */}
-        <main className='bg1 min-h-screen flex flex-col'
-          style={{
-            marginLeft: leftOpen ? LAYOUT.LEFT_SIDEBAR_WIDTH : 0,
-            marginRight: rightOpen ? LAYOUT.RIGHT_SIDEBAR_WIDTH : 0
-          }}
-          
+   
+
+      <div className="h-screen overflow-hidden flex font-inter bg-(--bg) text-(--text)">
+        <div
+          className={`
+        fixed z-70 md:static min-h-screen
+      transition-[width] duration-300 ease-in-out
+      overflow-hidden inset-y-0
+      ${leftOpen ? '' : 'w-0'}
+    `}
+        >
+          <LeftSidebar open={leftOpen} toggle={toggleLeftSidebar} />
+        </div>
+
+        <main className="flex-1 min-w-0 flex flex-col"
+        onClick={handleOutsideClick}
         >
           <Navbar
             toggleLeft={toggleLeftSidebar}
             toggleRight={toggleRightSidebar}
-            leftOpen={leftOpen}
-            rightOpen={rightOpen}
           />
 
-          <div className="flex-1 flex justify-center overflow-auto no-scrollbar">
-            <div className="w-full px-6 py-6">
+          <div className="flex-1 overflow-auto no-scrollbar">
+            <div className="px-6 py-6 overflow-auto">
               <Outlet />
             </div>
           </div>
         </main>
+
+        <div
+          className={`
+      fixed z-70 md:static min-h-screen
+      transition-[width] duration-300 ease-in-out
+      overflow-hidden inset-y-0
+      ${rightOpen ? 'w-[256px]' : 'w-0'}
+    `}
+        >
+          <RightSidebar />
+        </div>
       </div>
+
     </LayoutContext.Provider>
   )
 }

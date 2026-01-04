@@ -1,6 +1,7 @@
 import React from 'react'
 // import worldMap from '../../assets/world-map.png' // 
-
+import map from "../../assets/map.png"
+import mapd from "../../assets/mapd.png"
 const locations = [
   { name: 'New York', value: 72, top: '38%', left: '30%' },
   { name: 'San Francisco', value: 39, top: '40%', left: '24%' },
@@ -16,19 +17,25 @@ const RevenueByLocation = () => {
       {/* Map */}
       <div className="relative h-[45] mb-6">
         <img
-          src="https://images.unsplash.com/photo-1566935843973-aed0ddcb0ecc?q=80&w=1129&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          alt="World Map"
-          className="w-full h-full object-contain opacity-90"
+          src={map}
+          alt="World Map Light"
+          className="dark:hidden w-full h-full object-contain"
         />
 
-        {/* Dots */}
-        {locations.map((loc) => (
+        <img
+          src={mapd}
+          alt="World Map Dark"
+          className="hidden dark:block w-full h-full object-contain"
+        />
+
+        
+        {/* {locations.map((loc) => (
           <span
             key={loc.name}
             className="absolute w-2.5 h-2.5 bg-black rounded-full border-2 border-white"
             style={{ top: loc.top, left: loc.left }}
           />
-        ))}
+        ))} */}
       </div>
 
       {/* Revenue list */}

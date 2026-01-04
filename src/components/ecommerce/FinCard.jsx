@@ -5,7 +5,7 @@ const FinCard = ({ label, value, percentage, color, textColor }) => {
 
 
     return (
-        <div className={`group rounded-2xl p-6 flex flex-col gap-2  w-full sm:w-[calc(50%-12px)]`}
+        <div className={`group min-w-0 rounded-2xl p-6 flex flex-wrap flex-col gap-2  w-full sm:w-[calc(50%-12px)]`}
             style={{
                 background: color,
                 color: textColor
@@ -20,6 +20,7 @@ const FinCard = ({ label, value, percentage, color, textColor }) => {
             font-semibold text-2xl
             order-1 group-hover:order-2
             transition-all duration-300 ease-in-out
+            truncate
           "
                 >
                     {value}

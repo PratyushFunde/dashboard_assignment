@@ -9,15 +9,11 @@ import ContactsCard from './ContactsCard'
 const RightSidebar = ({ open }) => {
   return (
     <aside className={`
-      bg-(--bg)
-    fixed inset-y-0 right-0 p-5
-    ${open ? "translate-x-0" : "translate-x-full"}
-     border border-l border-[#1C1C1C1A]
-    transform transition-transform duration-300 ease-in-out
-    overflow-auto
+       bg-(--bg) text-(--text)
+    h-full overflow-y-auto
     no-scrollbar
-    z-50
-    w-[90vw]
+    py-5 px-2
+    border border-l border-(--border)
     `}
       style={{
         width: LAYOUT.RIGHT_SIDEBAR_WIDTH

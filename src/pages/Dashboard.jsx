@@ -18,12 +18,12 @@ const Dashboard = () => {
 
   return (
     <div className="main flex flex-col gap-7 no-scrollbar">
-      <div className="r1 border border-red-500 md:border-blue-500">
+      <div className="r1 min-w-0 ">
 
         <div className="title mb-4 text-lg font-semibold">eCommerce</div>
 
-        <div className="content border flex flex-col md:flex-row gap-5">
-          <div className="cards flex gap-6 w-full flex-wrap  md:w-1/2 bd2">
+        <div className="content min-w-0 flex flex-col md:flex-row gap-5">
+          <div className="cards min-w-0 flex gap-6 w-full flex-wrap  md:w-1/2 bd2">
             {data.finCards.map((item) => (
               <FinCard
                 key={item.label}
@@ -35,7 +35,7 @@ const Dashboard = () => {
               />
             ))}
           </div>
-          <div className="chart bg-(--card) text-(--text) flex flex-col rounded-2xl flex-1 py-2">
+          <div className="chart min-w-0 bg-(--card) text-(--text) flex flex-col rounded-2xl flex-1 py-2">
             <p className='ml-5 mt-3 font-semibold text-[14px]'>Projections vs Actuals</p>
             <ProjectionChart trigger={`${leftOpen}-${rightOpen}`} />
           </div>
@@ -44,23 +44,33 @@ const Dashboard = () => {
 
       </div>
 
-      <div className="r2 flex flex-col md:flex-row border border-red-500 md:border-blue-500 gap-5 rounded-2xl">
-        <div className="flex-1 ">
+      {/* <div className="r2 border min-w-0 flex flex-col md:flex-row gap-5 rounded-2xl">
+        <div className="flex-1 min-w-0">
           <RevenueChart trigger={`${leftOpen}-${rightOpen}`} />
         </div>
 
-        <div className="w-full md:w-[50%] border self-center  rounded-2xl">
+        <div className="w-full border h-full min-w-0 md:w-[30%] self-center  rounded-2xl">
+          <RevenueByLocation trigger={`${leftOpen}-${rightOpen}`} />
+        </div>
+      </div> */}
+      <div className="r2 min-w-0 flex flex-col md:flex-row md:items-stretch gap-5 rounded-2xl">
+        {/* Revenue Chart Container */}
+        <div className="flex-1 min-w-0 flex flex-col">
+          <RevenueChart trigger={`${leftOpen}-${rightOpen}`} />
+        </div>
+
+        {/* Location Chart Container */}
+        <div className="w-full min-w-0 md:w-[30%] flex flex-col rounded-2xl">
           <RevenueByLocation trigger={`${leftOpen}-${rightOpen}`} />
         </div>
       </div>
-  
 
-      <div className="r3 flex flex-col border border-amber-600 md:flex-row gap-5">
-        <div className='flex-1 bg-(--card) rounded-2xl'>
+      <div className="r3 min-w-0 flex flex-col md:flex-row gap-5">
+        <div className='flex-1 bg-(--card) overflow-x-auto rounded-2xl'>
 
           <TopSellingProducts />
         </div>
-        <div className="w-full md:w-90  bg-(--card) rounded-2xl">
+        <div className="md:w-[30%] min-w-0 md:max-w-[105] bg-(--card) rounded-2xl">
           <TotalSalesChart />
         </div>
       </div>

@@ -1,10 +1,13 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { ChevronRight, ChevronDown } from "lucide-react"
 import SideBarSubItem from "./SideBarSubItem"
 import { useLoaderData, useLocation, useNavigate } from 'react-router-dom';
+import { LayoutContext } from '../../../context/LayoutContext';
 
 const SideBarItem = ({ item }) => {
     const [open, setOpen] = useState(false);
+
+    const { toggleLeftSidebar } = useContext(LayoutContext)
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -16,7 +19,10 @@ const SideBarItem = ({ item }) => {
     const handleClick = () => {
         if (item.path) {
 
-            navigate(item.path)
+            navigate(item.path);
+            if (window.innerWidth < 768) {
+                toggleLeftSidebar()
+            }
         }
     }
 
@@ -26,7 +32,7 @@ const SideBarItem = ({ item }) => {
                 onClick={() => item.children && setOpen(!open)}
                 className={`
           w-full flex items-center py-2 px-4 rounded-lg
-          ${isActive ? "bg-(--active) font-medium":''}
+          ${isActive ? "bg-(--active) font-medium" : ''}
         `}
             >
                 <div className="bd1 flex items-center gap-2">

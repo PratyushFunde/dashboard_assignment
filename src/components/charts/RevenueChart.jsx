@@ -77,7 +77,7 @@ const RevenueChart = ({ trigger }) => {
         smooth: true,
         data: [7, 17, 14, 10, 14, 23],
         lineStyle: {
-          color: currentLineColor,
+          color: '#A8C5DA',
           width: 3
         },
         symbol: 'none'
@@ -90,7 +90,7 @@ const RevenueChart = ({ trigger }) => {
         smooth: true,
         data: [12, 8, 9, 15, null, null],
         lineStyle: {
-          color: currentLineColor,
+          color: 'black',
           width: 3
         },
         symbol: 'none'
@@ -103,7 +103,7 @@ const RevenueChart = ({ trigger }) => {
         smooth: true,
         data: [null, null, null, 15, 18, 20],
         lineStyle: {
-          color: currentLineColor,
+          color: 'black',
           width: 3,
           type: 'dashed'
         },
@@ -113,9 +113,9 @@ const RevenueChart = ({ trigger }) => {
   }
 
   return (
-    <div className="bg-(--card) text-(--text) rounded-2xl p-6 w-full h-full">
+    <div className="bg-(--card) overflow-auto no-scrollbar text-(--text) rounded-2xl p-6 w-full h-full">
       {/* Header */}
-      <div className="flex items-center gap-6 mb-4">
+      <div className="flex  items-center gap-6 mb-4">
         <h2 className="text-lg font-semibold ">Revenue</h2>
 
         <div className="flex items-center gap-2 text-sm">

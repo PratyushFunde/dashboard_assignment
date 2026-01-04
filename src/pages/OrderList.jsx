@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Table, Input, Avatar, Space, Checkbox } from 'antd';
+import React, { useState, useMemo } from 'react';
+import { Table, Input, Avatar, Space } from 'antd';
 import {
     PlusOutlined,
     FilterOutlined,
@@ -18,17 +18,13 @@ const statusConfig = {
 
 const columns = [
     {
-        title: <span className="text-xs font-normal text-(--muted)">
-            Order ID
-        </span>,
+        title: <span className="text-xs font-normal text-(--muted)">Order ID</span>,
         dataIndex: 'orderId',
         key: 'orderId',
         render: (text) => <span className="font-medium">{text}</span>,
     },
     {
-        title: <span className="text-xs font-normal text-(--muted)">
-            User
-        </span>,
+        title: <span className="text-xs font-normal text-(--muted)">User</span>,
         dataIndex: 'user',
         key: 'user',
         render: (user) => (
@@ -39,17 +35,17 @@ const columns = [
         ),
     },
     {
-        title: <span className="text-xs font-normal text-(--muted)"> Project</span>,
+        title: <span className="text-xs font-normal text-(--muted)">Project</span>,
         dataIndex: 'project',
         key: 'project',
     },
     {
-        title: <span className="text-xs font-normal text-(--muted)"> Address  </span>,
+        title: <span className="text-xs font-normal text-(--muted)">Address</span>,
         dataIndex: 'address',
         key: 'address',
     },
     {
-        title: <span className="text-xs font-normal text-(--muted)"> Date</span>,
+        title: <span className="text-xs font-normal text-(--muted)">Date</span>,
         dataIndex: 'date',
         key: 'date',
         render: (date) => (
@@ -60,7 +56,7 @@ const columns = [
         ),
     },
     {
-        title: <span className="text-xs font-normal text-(--muted)"> Status</span>,
+        title: <span className="text-xs font-normal text-(--muted)">Status</span>,
         dataIndex: 'status',
         key: 'status',
         render: (status) => (
@@ -74,9 +70,7 @@ const columns = [
                         display: 'inline-block',
                     }}
                 />
-                <span style={{ color: statusConfig[status].color }}>
-                    {status}
-                </span>
+                <span style={{ color: statusConfig[status].color }}>{status}</span>
             </Space>
         ),
     },
@@ -118,7 +112,6 @@ const dataSource = [
         address: 'Washburn Baton Rouge',
         date: 'Yesterday',
         status: 'Approved',
-        checked: true,
     },
     {
         key: 5,
@@ -132,30 +125,42 @@ const dataSource = [
 ];
 
 const OrderList = () => {
-
     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
 
     const rowSelection = {
         selectedRowKeys,
-        onChange: (newSelectedRowKeys) => {
-            setSelectedRowKeys(newSelectedRowKeys);
-        },
+        onChange: (newSelectedRowKeys) => setSelectedRowKeys(newSelectedRowKeys),
     };
 
+    // Filter data based on search query
+    const filteredData = useMemo(() => {
+        if (!searchQuery) return dataSource;
+        const query = searchQuery.toLowerCase();
+        return dataSource.filter(
+            (item) =>
+                item.orderId.toLowerCase().includes(query) ||
+                item.user.name.toLowerCase().includes(query) ||
+                item.project.toLowerCase().includes(query) ||
+                item.address.toLowerCase().includes(query) ||
+                item.status.toLowerCase().includes(query)
+        );
+    }, [searchQuery]);
+
     return (
-        <div className="rounded-2xl bg-(--bg) p-5">
+        <div className="rounded-2xl bg-(--bg) p-5 min-w-0 ">
             {/* Header */}
             <div className="mb-4 flex flex-col gap-3 justify-between">
                 <h3 className="text-lg font-semibold">Order List</h3>
-                <div className="search_filter flex justify-between rounded  bg-[#F7F9FB] dark:bg-[#272727] py-3 px-2">
+                <div className="search_filter w-full flex justify-between rounded bg-[#F7F9FB] dark:bg-[#272727] py-3 px-2">
                     <div className="left_icons flex gap-5">
                         <button>
                             <PlusOutlined />
                         </button>
-                        <button className="">
+                        <button>
                             <FilterOutlined />
                         </button>
-                        <button className="">
+                        <button>
                             <SwapOutlined />
                         </button>
                     </div>
@@ -164,31 +169,27 @@ const OrderList = () => {
                         <Input
                             size="small"
                             placeholder="Search"
-                            prefix={<SearchOutlined  style={{ color: 'var(--muted)' }} className="text-(--muted) ml-2" />}
-                            className=''
+                            prefix={<SearchOutlined style={{ color: 'var(--muted)' }} />}
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
                         />
                     </div>
                 </div>
-
             </div>
-
 
             {/* Table */}
             <Table
-                className="order-list-table"
+                className="order-list-table overflow-auto"
                 rowSelection={rowSelection}
                 columns={columns}
-                dataSource={dataSource}
+                dataSource={filteredData}
                 pagination={{ pageSize: 5 }}
                 rowKey="key"
                 size="middle"
-                style={{
-                    fontFamily: 'Inter',
-                    backgroundColor: 'var(--bg)'
-                }}
+                style={{ fontFamily: 'Inter', backgroundColor: 'var(--bg)' }}
             />
         </div>
     );
-}
+};
 
-export default OrderList
+export default OrderList;
