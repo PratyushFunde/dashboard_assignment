@@ -48,7 +48,11 @@ const TotalSalesChart = ({ leftOpen, rightOpen }) => {
 
   // ✅ Resize when sidebars open/close
   useEffect(() => {
-    chartRef.current?.getEchartsInstance().resize()
+    const timer = setTimeout(() => {
+      chartRef.current?.getEchartsInstance()?.resize()
+    }, 350)
+
+    return () => clearTimeout(timer)
   }, [leftOpen, rightOpen])
 
   return (
@@ -56,11 +60,11 @@ const TotalSalesChart = ({ leftOpen, rightOpen }) => {
       <h3 className="text-lg font-semibold mb-4">Total Sales</h3>
 
       {/* ✅ fixed height container */}
-      <div className="relative flex justify-center items-center h-[220px]">
+      <div className="relative flex justify-center items-center h-55 w-full min-w-50">
         <ReactECharts
           ref={chartRef}               // ✅ REQUIRED
           option={option}
-          style={{ height: 200, width: 200 }}
+          style={{ height: 200, width: '100%' }}
         />
 
         {/* Percentage bubble */}
