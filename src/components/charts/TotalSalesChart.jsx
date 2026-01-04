@@ -48,12 +48,25 @@ const TotalSalesChart = ({ leftOpen, rightOpen }) => {
 
   // ✅ Resize when sidebars open/close
   useEffect(() => {
-    const timer = setTimeout(() => {
-      chartRef.current?.getEchartsInstance()?.resize()
-    }, 350)
+    const handleResize = () => {
+      if (chartRef.current) {
+        chartRef.current.getEchartsInstance().resize();
+      }
+    };
 
-    return () => clearTimeout(timer)
-  }, [leftOpen, rightOpen])
+    // Use ResizeObserver for perfect scaling even on slow production loads
+    const observer = new ResizeObserver(() => handleResize());
+    const container = document.querySelector('.chart-container');
+    if (container) observer.observe(container);
+
+    // Manual triggers for sidebar changes
+    const timer = setTimeout(handleResize, 300);
+
+    return () => {
+      observer.disconnect();
+      clearTimeout(timer);
+    };
+  }, [leftOpen, rightOpen]);
 
   return (
     <div className="w-full rounded-3xl p-5">
@@ -64,6 +77,7 @@ const TotalSalesChart = ({ leftOpen, rightOpen }) => {
         <ReactECharts
           ref={chartRef}               // ✅ REQUIRED
           option={option}
+          notMerge={true}
           style={{ height: 200, width: '100%' }}
         />
 

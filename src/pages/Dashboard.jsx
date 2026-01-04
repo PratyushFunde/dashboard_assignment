@@ -70,7 +70,7 @@ const Dashboard = () => {
 
           <TopSellingProducts />
         </div>
-        <div className="md:w-[30%] min-w-0 md:max-w-[105] bg-(--card) rounded-2xl">
+        <div className="md:w-[30%] min-w-0  bg-(--card) rounded-2xl">
           <TotalSalesChart leftOpen={leftOpen} rightOpen={rightOpen} />
         </div>
       </div>
