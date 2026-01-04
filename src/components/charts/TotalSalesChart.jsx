@@ -44,13 +44,14 @@ const TotalSalesChart = ({leftOpen,rightOpen}) => {
       chartRef.current?.getEchartsInstance().resize()
     }, 100);
 
-    useEffect(() => {
-      chartRef.current?.getEchartsInstance().resize()
-    }, [leftOpen, rightOpen])
+ 
 
     return () => clearTimeout(timer)
   }, [])
 
+     useEffect(() => {
+      chartRef.current?.getEchartsInstance().resize()
+    }, [leftOpen, rightOpen])
 
   return (
     <div className="w-full rounded-3xl  text-(--text) p-5">
@@ -58,6 +59,7 @@ const TotalSalesChart = ({leftOpen,rightOpen}) => {
 
       <div className="relative flex justify-center">
         <ReactECharts
+        ref={chartRef}
           option={option}
           style={{ height: 200, width: 200 }}
         />
