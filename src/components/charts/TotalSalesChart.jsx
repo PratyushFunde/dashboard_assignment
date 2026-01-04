@@ -1,0 +1,77 @@
+import React from 'react'
+import ReactECharts from 'echarts-for-react';
+
+const TotalSalesChart = () => {
+  const data = [
+    { value: 300.56, name: 'Direct', color: '#C6C7F8' },
+    { value: 135.18, name: 'Affiliate', color: '#BAEDBD' },
+    { value: 154.02, name: 'Sponsored', color: '#95A4FC' },
+    { value: 48.96, name: 'E-mail', color: '#B1E3FF' },
+  ];
+
+  const total = data.reduce((sum, d) => sum + d.value, 0);
+  const percent = ((data[0].value / total) * 100).toFixed(1);
+
+  const option = {
+    tooltip: { show: false },
+    series: [
+      {
+        type: 'pie',
+        radius: ['55%', '75%'],
+        center: ['50%', '45%'],
+        startAngle: 90,
+        avoidLabelOverlap: false,
+        label: { show: false },
+        labelLine: { show: false },
+        itemStyle: {
+          borderRadius: 12,
+          borderWidth: 3,
+          borderColor: 'none',
+        },
+        data: data.map((d) => ({
+          value: d.value,
+          name: d.name,
+          itemStyle: { color: d.color },
+        })),
+      },
+    ],
+  };
+
+  return (
+    <div className="w-full rounded-3xl  text-(--text) p-5">
+      <h3 className="text-lg font-semibold mb-4">Total Sales</h3>
+
+      <div className="relative flex justify-center">
+        <ReactECharts
+          option={option}
+          style={{ height: 200, width: 200 }}
+        />
+
+        {/* Percentage bubble */}
+        <div className="absolute left-6 bottom-10 bg-[#3E443F] text-white text-sm px-4 py-2 rounded-xl">
+          {percent}%
+        </div>
+      </div>
+
+      {/* Legend */}
+      <div className="mt-4 space-y-3 text-(--text) ">
+        {data.map((item) => (
+          <div key={item.name} className="flex items-center justify-between ">
+            <div className="flex items-center gap-2 text-(--text)">
+              <span
+                className="w-2 h-2 rounded-full"
+                style={{ backgroundColor: item.color }}
+              />
+              <span className="text-sm text-(--text)">{item.name}</span>
+            </div>
+            <span className="text-sm font-medium">
+              ${item.value.toFixed(2)}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default TotalSalesChart

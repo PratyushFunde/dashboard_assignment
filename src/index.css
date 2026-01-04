@@ -1,0 +1,178 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Tagesschrift&display=swap');
+@import "tailwindcss";
+/* @import "./utility.css"; */
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* backgrounds */
+  --bg: #FFFFFF;
+  --card: #F7F9FB;
+  --active: #F4F4F4;
+
+  /* text */
+  --text: #1C1C1C;
+  --muted: #1C1C1C66;
+  --axis-text: #1C1C1C66;
+
+  /* borders */
+  --border: #1C1C1C1A;
+
+
+  /* hover */
+  --hover: #F1F4F8;
+
+  /* Fin cards – light */
+  --fin-customers: #E3F5FF;
+  --fin-orders: #F7F9FB;
+  --fin-revenue: #F7F9FB;
+  --fin-growth: #E5ECF6;
+
+  
+  --fin-customers-text: #1C1C1C;
+  --fin-orders-text: #1C1C1C;
+  --fin-revenue-text: #1C1C1C;
+  --fin-growth-text: #1C1C1C;
+}
+
+.dark {
+  --bg: #1C1C1C;
+  --card: #282828;
+  --active: #333333;
+  --sidebar: #020617;
+  --navbar: #1C1C1C;
+
+  --text: #ffffff;
+  --muted: #7E7E7E;
+  --axis-text: #7E7E7E;
+
+  --border: #FFFFFF1A;
+
+  --hover:rgb(146, 143, 143);
+
+  --fin-customers: #E3F5FF;
+  --fin-orders: #272727;
+  --fin-revenue: #272727;
+  --fin-growth: #E5ECF6;
+
+
+  --fin-customers-text: #000000;
+  --fin-orders-text: #FFFFFF;
+  --fin-revenue-text: #FFFFFF;
+  --fin-growth-text: #000000;
+
+  --line-style:#A8C5DA;
+
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* @theme {
+  --font-sans: "Inter"
+} */
+* {
+  /* margin: 0; */
+  /* padding: 0; */
+  box-sizing: border-box;
+}
+
+/* Hide scrollbar but keep scrolling */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  /* IE & Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.ant-table-thead>tr>th::before {
+  display: none !important;
+}
+
+
+
+/* Hover state (important!) */
+.ant-table-tbody>tr:hover>td {
+  background: #EEF2F7 !important;
+}
+
+/* ===== Top Selling Products table ONLY ===== */
+/* ===== Top Selling Products table ONLY ===== */
+
+.top-selling-table,
+.top-selling-table .ant-table,
+.top-selling-table .ant-table-container,
+.top-selling-table .ant-table-content {
+  /* background: #F7F9FB !important; */
+}
+
+/* Header */
+.top-selling-table .ant-table-thead>tr>th {
+  background: var(--card) !important;
+  color: var(--text);
+  border-bottom: none;
+  font-weight: 600;
+}
+
+/* Body rows */
+.top-selling-table .ant-table-tbody>tr>td {
+  background: var(--card) !important;
+  color: var(--text);
+  border-bottom: none;
+}
+
+.ant-card-head-title {
+  color: var(--text) !important;
+}
+
+/* Hover */
+.top-selling-table .ant-table-tbody>tr:hover>td {
+  background: var(--card) !important;
+}
+
+/* OrderList table background */
+.order-list-table,
+.order-list-table .ant-table,
+.order-list-table .ant-table-container,
+.order-list-table .ant-table-content,
+.order-list-table .ant-table-thead > tr > th,
+.order-list-table .ant-table-tbody > tr > td {
+  background: var(--bg) !important;
+  color: var(--text);
+}
+
+.ant-input {
+  color: var(--text) !important;
+}
+
+/* Search input background */
+.input_search .ant-input-affix-wrapper {
+  background-color: #1C1C1C0D !important;
+  border: none;
+  padding: 2px;
+  border-radius: 8px;
+}
+
+.dark .input_search .ant-input-affix-wrapper {
+  background-color: #333333 !important;
+}
+
+/* Remove inner input bg */
+.input_search .ant-input {
+  background: transparent !important;
+}
+
+.input_search .ant-input::placeholder {
+  color: var(--muted);
+  opacity: 1; /* important for Firefox */
+}
+
+.dark .input_search .ant-input::placeholder {
+  color: var(--muted);
+}

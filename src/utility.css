@@ -1,0 +1,25 @@
+@layer utilities {
+  /* Border utilities (2px solid) */
+  .bd1 { border: 2px solid #ef4444; }   /* red */
+  .bd2 { border: 2px solid #16f1f9; }   /* orange */
+  .bd3 { border: 2px solid #eab308; }   /* yellow */
+  .bd4 { border: 2px solid #22c55e; }   /* green */
+  .bd5 { border: 2px solid #14b8a6; }   /* teal */
+  .bd6 { border: 2px solid #0ea5e9; }   /* sky */
+  .bd7 { border: 2px solid #3b82f6; }   /* blue */
+  .bd8 { border: 2px solid #6366f1; }   /* indigo */
+  .bd9 { border: 2px solid #a855f7; }   /* purple */
+  .bd10 { border: 2px solid #ec4899; }  /* pink */
+
+  /* Background utilities */
+  .bg1 { background-color: #fee2e2; }   /* light red */
+  .bg2 { background-color: #ffedd5; }   /* light orange */
+  .bg3 { background-color: #fef9c3; }   /* light yellow */
+  .bg4 { background-color: #dcfce7; }   /* light green */
+  .bg5 { background-color: #ccfbf1; }   /* light teal */
+  .bg6 { background-color: #e0f2fe; }   /* light sky */
+  .bg7 { background-color: #dbeafe; }   /* light blue */
+  .bg8 { background-color: #e0e7ff; }   /* light indigo */
+  .bg9 { background-color: #f3e8ff; }   /* light purple */
+  .bg10 { background-color: #fce7f3; }  /* light pink */
+}
