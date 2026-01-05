@@ -7,24 +7,28 @@ import { DashboardProvider } from './context/DashboardContext.jsx'
 import { NotificationProvider } from './context/NotificationContext.jsx'
 import { ConfigProvider } from 'antd'
 import { ThemeProvider } from './context/ThemeContext.jsx'
+import { SearchProvider } from './context/SearchContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
-      <ThemeProvider>
+      <SearchProvider>
 
-        <ConfigProvider theme={{
-          token: {
-            fontFamily: 'Inter,system-ui, sans-serif'
-          }
-        }}>
-          <NotificationProvider>
-            <DashboardProvider>
-              <App />
-            </DashboardProvider>
-          </NotificationProvider>
-        </ConfigProvider>
-      </ThemeProvider>
+        <ThemeProvider>
+
+          <ConfigProvider theme={{
+            token: {
+              fontFamily: 'Inter,system-ui, sans-serif'
+            }
+          }}>
+            <NotificationProvider>
+              <DashboardProvider>
+                <App />
+              </DashboardProvider>
+            </NotificationProvider>
+          </ConfigProvider>
+        </ThemeProvider>
+      </SearchProvider>
     </BrowserRouter>
   </StrictMode >,
 )

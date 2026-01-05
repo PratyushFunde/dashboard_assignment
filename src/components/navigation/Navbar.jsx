@@ -13,26 +13,29 @@ import {
   ChevronDown,
 } from 'lucide-react'
 import { useTheme } from '../../context/ThemeContext'
+import { useSearch } from '../../context/SearchContext'
 
 const Navbar = ({ toggleLeft, toggleRight }) => {
   const { theme, toggleTheme } = useTheme()
   const [breadcrumbOpen, setBreadcrumbOpen] = useState(false)
-  const searchRef=useRef(null)
+  const searchRef = useRef(null);
+
+  const { query, setQuery } = useSearch();
 
   useEffect(() => {
-   const handleKeyDown = (e) => {
-    // Cmd + / (Mac) OR Ctrl + / (Windows/Linux)
-    if ((e.metaKey || e.ctrlKey) && e.key === '/') {
-      e.preventDefault()
-      searchRef.current?.focus()
+    const handleKeyDown = (e) => {
+      // Cmd + / (Mac) OR Ctrl + / (Windows/Linux)
+      if ((e.metaKey || e.ctrlKey) && e.key === '/') {
+        e.preventDefault()
+        searchRef.current?.focus()
+      }
     }
-  }
-    
-    window.addEventListener('keydown',handleKeyDown);
-    return ()=>window.removeEventListener('keydown',handleKeyDown)
-    
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown)
+
   }, [])
-  
+
 
   return (
     <nav
@@ -82,9 +85,10 @@ const Navbar = ({ toggleLeft, toggleRight }) => {
             <div
               className="
                 absolute top-full left-0 mt-1
-                min-w-[160px]
+                bg-(--bg)
+                z-70
+                min-w-[40]
                 rounded border shadow
-                bg-(--navbar)
                 border-(--border)
               "
             >
@@ -107,7 +111,8 @@ const Navbar = ({ toggleLeft, toggleRight }) => {
         {/* Search – hidden on tablet & mobile */}
         <div className="relative hidden lg:block">
           <input
-          ref={searchRef}
+            ref={searchRef}
+            onChange={(e)=>setQuery(e.target.value)}
             type="text"
             placeholder="Search"
             className="
