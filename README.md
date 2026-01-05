@@ -39,113 +39,108 @@ This project implements a dashboard based on a Figma design using React and Vite
 - The UI follows the provided Figma design and uses React component composition for layouts and widgets.
 - The development server listens on port `5001` by project configuration — open `http://localhost:5001` after `npm run dev`.
 
-**Challenges**
-1) Sales Chart Rendering Issue in Production
+## 🚧 Challenges & Solutions
 
-One of the key challenges occurred with the Sales chart (Apache ECharts) during deployment. While the chart rendered correctly in local development, it did not display or scale properly in the deployed environment (Vercel).
+---
 
-Problem
+### **1. Sales Chart Rendering Issue in Production**
 
-The chart was initializing before its container had a final size
+One of the key challenges occurred with the **Sales chart (Apache ECharts)** during deployment. While the chart rendered correctly in local development, it did **not display or scale properly in the deployed environment (Vercel)**.
 
-In production builds, layout shifts caused by sidebar open/close animations and hydration timing differences caused ECharts to calculate incorrect dimensions
+#### **Problem**
+- The chart was initializing **before its container had a final size**
+- In production builds, layout shifts caused by:
+  - Sidebar open/close animations
+  - Hydration timing differences  
+  caused ECharts to calculate incorrect dimensions
+- As a result, the chart appeared:
+  - Collapsed
+  - Clipped
+  - Incorrectly sized after deployment
 
-As a result, the chart appeared collapsed, clipped, or incorrectly sized after deployment
-
-Solution
-
+#### **Solution**
 To resolve this, additional resize handling logic was introduced:
 
-Delayed resize after initial mount to handle Vercel hydration and ensure the DOM was fully ready
+- **Delayed resize after initial mount** to handle Vercel hydration and ensure the DOM was fully ready
+- **Dynamic resizing when sidebars open or close**, allowing the chart to adapt to layout changes
+- **`ResizeObserver`** to monitor container size changes for reliable scaling, even on slower production loads
 
-Dynamic resizing when sidebars open or close, allowing the chart to adapt to layout changes
+✅ **Outcome:**  
+The Sales chart now renders consistently across both development and production environments.
 
-ResizeObserver to monitor container size changes for reliable scaling, even on slower production loads
+---
 
-This ensured consistent chart rendering across both development and production environments.
+### **2. Layout & Responsiveness Challenge**
 
-2) Layout & Responsiveness Challenge
-Sidebar Layout Issues on Mobile Devices
+#### **Sidebar Layout Issues on Mobile Devices**
 
-Another significant challenge involved the overall dashboard layout and sidebar positioning, especially on mobile and smaller screen sizes.
+Another significant challenge involved the **overall dashboard layout and sidebar positioning**, especially on mobile and smaller screen sizes.
 
-Problem
+#### **Problem**
+- The initial layout relied on:
+  - `margin-left` and `margin-right` offsets to make space for sidebars
+  - `position: fixed` for both left and right sidebars
+- This approach caused several issues on mobile:
+  - Content overflow and hidden sections
+  - Unwanted horizontal scrolling
+  - Incorrect spacing when sidebars were toggled
+  - Layout breaking on smaller screen widths
 
-The initial layout relied on margin-left and margin-right offsets to make space for the sidebars
+❌ The margin-based approach did not adapt well to responsive design.
 
-Both left and right sidebars were positioned using position: fixed
+#### **Solution**
+The layout architecture was restructured:
 
-This approach caused several issues on mobile devices:
+- The **root layout was converted to a Flexbox-based structure**, allowing content to naturally adapt to available space
+- Sidebar spacing was removed from margin calculations and handled by Flexbox flow
+- **Sidebars remain `fixed` only on smaller screens**, behaving as overlay panels
+- On larger screens, sidebars participate in the normal layout flow for stability
 
-Content overflow and hidden sections
-
-Unwanted horizontal scrolling
-
-Incorrect spacing when sidebars were toggled
-
-Layout breaking on smaller screen widths
-
-The margin-based layout approach did not adapt well to responsive design and caused inconsistencies across screen sizes.
-
-Solution
-
-To resolve these issues, the layout architecture was restructured:
-
-The root layout was converted to a Flexbox-based structure, allowing the main content area to naturally adapt to available space
-
-Sidebar spacing was removed from margin calculations and instead handled by Flexbox flow
-
-Sidebars remain fixed only on smaller screens, behaving as overlay panels
-
-On larger screens, sidebars participate in the normal layout flow, ensuring stable and predictable responsiveness
-
+✅ **Outcome:**  
 This redesign eliminated layout shifts, improved mobile usability, and resulted in a more robust and responsive dashboard layout.
 
-3) Theme (Dark / Light Mode) Consistency Challenge
-Styling Inconsistencies Across Dark and Light Modes
+---
 
-Another challenge involved maintaining consistent styling across dark and light themes, particularly for financial cards, charts, and Ant Design tables.
+### **3. Theme (Dark / Light Mode) Consistency Challenge**
 
-Problem
+#### **Styling Inconsistencies Across Themes**
 
-Initially, component colors were hard-coded or tied directly to Tailwind utility classes
+Another challenge involved maintaining **consistent styling across dark and light modes**, particularly for **financial cards, charts, and Ant Design tables**.
 
-This caused inconsistencies when switching between light and dark modes, including:
+#### **Problem**
+- Component colors were initially:
+  - Hard-coded
+  - Tightly coupled to Tailwind utility classes
+- This caused inconsistencies such as:
+  - Financial cards displaying incorrect background or text colors
+  - Charts not adapting correctly to theme changes
+  - Ant Design table headers, rows, and hover states ignoring the active theme
+- Theme logic scattered across components became difficult to maintain
 
-Financial cards displaying incorrect background or text colors
+#### **Solution**
+A **CSS variable–driven theming strategy** was introduced:
 
-Charts and UI elements not adapting correctly to theme changes
+- Theme colors were centralized using **CSS custom properties**:
+  - `:root` for light mode
+  - `.dark` for dark mode
+- Financial card colors were abstracted into reusable utilities:
+  - **`finCardBg`** for background colors
+  - **`finCardText`** for text colors
+- These utilities reference CSS variables, enabling automatic theme switching
+- Ant Design table styles were overridden globally using CSS variables to ensure:
+  - Correct background, text, border, and hover colors
+  - Consistent appearance across both themes
 
-Ant Design table headers, rows, and hover states not respecting the active theme
+#### **Outcome**
+- Dark and light modes now render consistently across all components
+- Theme logic is centralized and easier to maintain
+- New components automatically support theming with minimal effort
 
-Managing theme styles directly inside components became difficult and error-prone as the UI scaled
+---
 
-Solution
+### ✅ Summary
 
-To address this, a CSS variable–driven theming approach was introduced:
-
-Theme colors were centralized using CSS custom properties defined in :root (light mode) and .dark (dark mode)
-
-Financial card colors were abstracted into reusable utility mappings:
-
-finCardBg for background colors
-
-finCardText for text colors
-
-These utilities reference CSS variables, ensuring automatic theme switching without modifying component logic
-
-Ant Design table styles were overridden globally using CSS variables to ensure:
-
-Proper background, text, border, and hover colors
-
-Consistent appearance across both themes
-
-This approach made theme switching seamless and significantly improved maintainability
-
-Outcome
-
-Dark and light modes now render consistently across all components
-
-Theme logic is centralized, reducing duplication and styling bugs
-
-New components can support theming easily by referencing existing CSS variables
+- Improved **production reliability** for charts
+- Achieved **fully responsive layouts**
+- Implemented **scalable and maintainable theming**
+- Reduced layout bugs and styling inconsistencies
