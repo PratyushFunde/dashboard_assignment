@@ -51,7 +51,8 @@ const DashboardLayout = () => {
         fixed z-70 md:static min-h-screen
       transition-[width] duration-300 ease-in-out
       overflow-hidden inset-y-0
-      ${leftOpen ? 'w-[52.5]' : 'w-0'}
+      border-r border-(--border)
+      ${leftOpen ? 'w-[210px]' : 'w-0'}
     `}
         >
           <LeftSidebar open={leftOpen} toggle={toggleLeftSidebar} />
