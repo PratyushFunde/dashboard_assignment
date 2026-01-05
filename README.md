@@ -39,4 +39,113 @@ This project implements a dashboard based on a Figma design using React and Vite
 - The UI follows the provided Figma design and uses React component composition for layouts and widgets.
 - The development server listens on port `5001` by project configuration — open `http://localhost:5001` after `npm run dev`.
 
+**Challenges**
+1) Sales Chart Rendering Issue in Production
 
+One of the key challenges occurred with the Sales chart (Apache ECharts) during deployment. While the chart rendered correctly in local development, it did not display or scale properly in the deployed environment (Vercel).
+
+Problem
+
+The chart was initializing before its container had a final size
+
+In production builds, layout shifts caused by sidebar open/close animations and hydration timing differences caused ECharts to calculate incorrect dimensions
+
+As a result, the chart appeared collapsed, clipped, or incorrectly sized after deployment
+
+Solution
+
+To resolve this, additional resize handling logic was introduced:
+
+Delayed resize after initial mount to handle Vercel hydration and ensure the DOM was fully ready
+
+Dynamic resizing when sidebars open or close, allowing the chart to adapt to layout changes
+
+ResizeObserver to monitor container size changes for reliable scaling, even on slower production loads
+
+This ensured consistent chart rendering across both development and production environments.
+
+2) Layout & Responsiveness Challenge
+Sidebar Layout Issues on Mobile Devices
+
+Another significant challenge involved the overall dashboard layout and sidebar positioning, especially on mobile and smaller screen sizes.
+
+Problem
+
+The initial layout relied on margin-left and margin-right offsets to make space for the sidebars
+
+Both left and right sidebars were positioned using position: fixed
+
+This approach caused several issues on mobile devices:
+
+Content overflow and hidden sections
+
+Unwanted horizontal scrolling
+
+Incorrect spacing when sidebars were toggled
+
+Layout breaking on smaller screen widths
+
+The margin-based layout approach did not adapt well to responsive design and caused inconsistencies across screen sizes.
+
+Solution
+
+To resolve these issues, the layout architecture was restructured:
+
+The root layout was converted to a Flexbox-based structure, allowing the main content area to naturally adapt to available space
+
+Sidebar spacing was removed from margin calculations and instead handled by Flexbox flow
+
+Sidebars remain fixed only on smaller screens, behaving as overlay panels
+
+On larger screens, sidebars participate in the normal layout flow, ensuring stable and predictable responsiveness
+
+This redesign eliminated layout shifts, improved mobile usability, and resulted in a more robust and responsive dashboard layout.
+
+3) Theme (Dark / Light Mode) Consistency Challenge
+Styling Inconsistencies Across Dark and Light Modes
+
+Another challenge involved maintaining consistent styling across dark and light themes, particularly for financial cards, charts, and Ant Design tables.
+
+Problem
+
+Initially, component colors were hard-coded or tied directly to Tailwind utility classes
+
+This caused inconsistencies when switching between light and dark modes, including:
+
+Financial cards displaying incorrect background or text colors
+
+Charts and UI elements not adapting correctly to theme changes
+
+Ant Design table headers, rows, and hover states not respecting the active theme
+
+Managing theme styles directly inside components became difficult and error-prone as the UI scaled
+
+Solution
+
+To address this, a CSS variable–driven theming approach was introduced:
+
+Theme colors were centralized using CSS custom properties defined in :root (light mode) and .dark (dark mode)
+
+Financial card colors were abstracted into reusable utility mappings:
+
+finCardBg for background colors
+
+finCardText for text colors
+
+These utilities reference CSS variables, ensuring automatic theme switching without modifying component logic
+
+Ant Design table styles were overridden globally using CSS variables to ensure:
+
+Proper background, text, border, and hover colors
+
+Consistent appearance across both themes
+
+This approach made theme switching seamless and significantly improved maintainability
+
+Outcome
+
+Dark and light modes now render consistently across all components
+
+Theme logic is centralized, reducing duplication and styling bugs
+
+New components can support theming easily by referencing existing CSS variables
