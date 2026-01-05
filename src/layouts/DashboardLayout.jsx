@@ -24,10 +24,10 @@ const DashboardLayout = () => {
     }
   }, [leftOpen, rightOpen])
 
-    // Close sidebar when clicking outside on mobile
+  // Close sidebar when clicking outside on mobile
   const handleOutsideClick = (e) => {
     // Only close if screen width < 768 (mobile)
-    if (window.innerWidth < 768 && leftOpen ) {
+    if (window.innerWidth < 768 && leftOpen) {
       setLeftOpen(false);
       // setRightOpen(false);
     }
@@ -43,7 +43,7 @@ const DashboardLayout = () => {
       closeRight: () => setRightOpen(false),
     }}>
 
-   
+
 
       <div className="h-screen overflow-hidden flex font-inter bg-(--bg) text-(--text)">
         <div
@@ -51,14 +51,14 @@ const DashboardLayout = () => {
         fixed z-70 md:static min-h-screen
       transition-[width] duration-300 ease-in-out
       overflow-hidden inset-y-0
-      ${leftOpen ? '' : 'w-0'}
+      ${leftOpen ? 'w-[52.5]' : 'w-0'}
     `}
         >
           <LeftSidebar open={leftOpen} toggle={toggleLeftSidebar} />
         </div>
 
         <main className="flex-1 min-w-0 flex flex-col"
-        onClick={handleOutsideClick}
+          onClick={handleOutsideClick}
         >
           <Navbar
             toggleLeft={toggleLeftSidebar}

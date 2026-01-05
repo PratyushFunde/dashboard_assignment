@@ -106,15 +106,7 @@ body {
   background: #EEF2F7 !important;
 }
 
-/* ===== Top Selling Products table ONLY ===== */
-/* ===== Top Selling Products table ONLY ===== */
 
-.top-selling-table,
-.top-selling-table .ant-table,
-.top-selling-table .ant-table-container,
-.top-selling-table .ant-table-content {
-  /* background: #F7F9FB !important; */
-}
 
 /* Header */
 .top-selling-table .ant-table-thead>tr>th {
